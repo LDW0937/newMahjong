@@ -1,0 +1,5 @@
+rm -rf srcs/PIL
+rm -rf srcs/PILBIN
+python compile_all.py
+svn propedit svn:externals srcs/platfrom/static/ --editor-cmd vi
+find . -name "*.py" -type f -exec rm -f {} \;

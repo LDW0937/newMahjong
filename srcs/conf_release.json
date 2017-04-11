@@ -1,0 +1,10 @@
+{
+    "autojson"          :   1,
+    "admin_view"        :   1,
+    "redis"     :   {
+        "host"          :   "192.168.0.99",
+        "port"          :   6379,
+        "database"      :   1,
+        "keyword"       :   "redis"
+    }
+}
