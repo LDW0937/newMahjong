@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{info['STATIC_ADMIN_PATH']}}/js/table/bootstrap-table.min.css" />
     <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/skin/qingxin/skin.css" id="layout-skin"/>
     <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/js/validate/css/bootstrapValidator.min.css" />
 
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/lib/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/sccl.js"></script>
@@ -26,6 +27,7 @@
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/table/tableExport.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/validate/js/bootstrapValidator.min.js"></script>
     </head>
     <script type="text/javascript">
         /*
