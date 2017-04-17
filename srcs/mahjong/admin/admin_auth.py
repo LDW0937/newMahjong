@@ -34,17 +34,71 @@ def getLoginPage(redis,session):
     info = {
                     'vcodeUrl'               :           BACK_PRE+'/vcode',
                     'STATIC_LAYUI_PATH'      :           STATIC_LAYUI_PATH,
-                    'STATIC_ADMIN_PATH'      :           STATIC_ADMIN_PATH
+                    'STATIC_ADMIN_PATH'      :           STATIC_ADMIN_PATH,
+                    'submitUrl'              :       '/admin/login',
+                    'account'                :       '',
+                    'passwd'                 :       '',
     }
-
-    return template('admin_login',info=info,lang=lang)
+    return template('admin_login',info=info,lang=lang,message='')
 
 @admin_app.post('/login')
-def do_Login(redis,session):
-    """
-        管理系统登录
-    """
-    pass
+def do_login(redis,session):
+    lang = getLang()
+    account = request.forms.get('userName','').strip()
+    passwd  = request.forms.get('password','').strip()
+    vcode   = request.forms.get('code','').strip()
+
+    info = {
+            'title'                  :           '管理员登录',
+            'submitUrl'              :           '/admin/login',
+            'account'                :           account,
+            'passwd'                 :           passwd,
+            'vcodeUrl'               :           BACK_PRE+'/vcode',
+            'STATIC_LAYUI_PATH'      :           STATIC_LAYUI_PATH,
+            'STATIC_ADMIN_PATH'      :           STATIC_ADMIN_PATH,
+    }
+
+    if not account or not passwd:
+        return template('admin_login',message='请填写账号和密码',info=info,lang=lang)
+
+    if vcode.upper() != session['maj_vcode'].upper():
+        return template('admin_login',message='验证码无效',info=info,lang=lang)
+
+    adminTable = AGENT_TABLE%(account)
+    # log_debug('[Try login] account[%s] password[%s] adminTable[%s]'%(account,passwd,adminTable))
+    if not redis.hgetall(adminTable):
+        return template('admin_login',message='无效的账号或密码',info=info,lang=lang)
+    adminPasswd,valid = redis.hmget(adminTable,('passwd','valid'))
+    if  adminPasswd != hashlib.sha256(passwd).hexdigest():
+        return template('admin_login',message='无效的账号或密码',info=info,lang=lang)
+
+    if valid != '1':
+        return template('admin_login',message='账号已被冻结',info=info,lang=lang)
+
+    #同一账号不能同时登录
+    # global ACCOUNT_SESSION
+    # if account in ACCOUNT_SESSION:
+    #     sessionKey  = ACCOUNT_SESSION[account]
+    #     if redis.exists(sessionKey):
+    #         redis.delete(sessionKey)
+    #     ACCOUNT_SESSION[account] = session.session_hash
+    # else:
+    #     ACCOUNT_SESSION[account] = session.session_hash
+
+    #更新登录IP和登陆日期
+    session['lastLoginIp'], session['lastLoginDate'],session['type'] = \
+        redis.hmget(adminTable, ('lastLoginIp', 'lastLoginDate','type'))
+
+    curTime = datetime.now()
+    redis.hmset(adminTable, {
+        'lastLoginIp'     :   request['REMOTE_ADDR'],
+        'lastLoginDate'   :   curTime.strftime("%Y-%m-%d %H:%M:%S")
+    })
+
+    #记录session信息
+    session['account'] = account
+
+    return redirect('/admin')
 
 @admin_app.get('/vcode')
 def changeVerfiyCode(session):
