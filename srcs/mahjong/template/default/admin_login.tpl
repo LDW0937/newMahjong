@@ -22,23 +22,23 @@
             <h1>{{lang.MAHJONG_LOGIN_TITLE_TXT}}</h1>
         </header>
         <div class="login-main">
-            <form action="/manage/login" class="layui-form" method="post">
+            <form action="{{info['submitUrl']}}" class="layui-form" method="post">
                 <input name="__RequestVerificationToken" type="hidden" value="">                
                 <div class="layui-form-item">
                     <label class="login-icon">
                         <i class="layui-icon"></i>
                     </label>
-                    <input type="text" name="userName" lay-verify="userName" autocomplete="off" placeholder="这里输入登录名" class="layui-input">
+                    <input type="text" name="userName" value="{{info['account']}}" lay-verify="userName" autocomplete="off" placeholder="这里输入登录名" class="layui-input">
                 </div>
                 <div class="layui-form-item">
                     <label class="login-icon">
                         <i class="layui-icon"></i>
                     </label>
-                    <input type="password" name="password" lay-verify="password" autocomplete="off" placeholder="这里输入密码" class="layui-input">
+                    <input type="password" name="password" value="{{info['passwd']}}" lay-verify="password" autocomplete="off" placeholder="这里输入密码" class="layui-input">
                 </div>
                 <div class="layui-form-item">
                     <div class="login-code-box">
-                        <input type="text" class="layui-input" id="code" />
+                        <input type="text" class="layui-input" name="code" />
                         <img id="valiCode" src="{{info['vcodeUrl']}}" alt="验证码" />
                     </div>
 <!--                     <div class="pull-left login-remember">
@@ -51,7 +51,10 @@
                 <div class="login-code-box" style='text-align:center'>
                     <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="login">
                         <i class="layui-icon"></i> 登录
-                    </button>
+                    </button>&nbsp;
+                    %if message:
+                        <span class='error-message' style='color:red;font-size:13px;'>{{message}}</span>
+                    %end
                 </div>
             </form>        
         </div>
@@ -66,6 +69,11 @@
                     content  : '移动版和PC版不能同时存在同一页面',
                     btn      : '我知道了'
           });
+          $("#valiCode").click(function(){
+                      var ms = new Date().getTime();
+                      urlStr = "/admin/vcode?v="+ms;
+                      $("#code").attr("src", urlStr);
+           });
     </script>
   </body>
 </html>
