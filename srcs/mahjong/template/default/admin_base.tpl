@@ -56,6 +56,13 @@
                             {"id":"1","name":"主菜单","parentId":"0","url":"","icon":"","order":"1","isHeader":"1",
                                     "childMenus":[
 
+                                            {"id":"5","name":"游戏管理","parentId":"1","url":"","icon":"&#xe602;","order":"1","isHeader":"0",
+                                                        "childMenus":[
+                                                                {"id":"7","name":"游戏模块列表","parentId":"5","url":"/admin/game/module/list","icon":"","order":"1","isHeader":"0","childMenus":""},
+
+                                                                {"id":"8","name":"游戏列表","parentId":"5","url":"/admin/game/list","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                            ]},                                            
+
                                             {"id":"6","name":"代理管理","parentId":"1","url":"","icon":"&#xe602;","order":"1","isHeader":"0",
                                                         "childMenus":[
                                                                 {"id":"7","name":"下线代理列表","parentId":"6","url":"/admin/agent/list","icon":"","order":"1","isHeader":"0","childMenus":""},
