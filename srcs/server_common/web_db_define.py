@@ -13,6 +13,7 @@ Description:
 """
 agent
   {
+        id          :    代理的ID
         account     :    账号
         passwd      :    密码
         name        :    昵称
@@ -29,7 +30,7 @@ agent
   }
 """
 AGENT_COUNT         =     'agents:id:count'
-AGENT_TABLE         =     'agents:id:%s'
+AGENT_TABLE         =     'agents:account:%s'
 AGENT_CHILD_TABLE   =     'agents:id:%s:child'
 
 """
