@@ -19,6 +19,7 @@ agent
         name        :    昵称
         shareRate   :    占成
         valid       :    是否有效 0-冻结 1-有效
+        isCreate    :    是否允许创建下级代理 0-不允许 1-允许
         roomcard_id :    当前货币ID
         parent_id   :    上线代理id
         roomcard    :    房卡数
