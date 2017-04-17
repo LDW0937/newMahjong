@@ -60,3 +60,6 @@ if main_app.config.get('admin_view', 1):
     #是否允许访问后台
     from admin import admin_app
     main_app.mount('/admin',admin_app)
+
+from hall import hall_app
+main_app.mount('/hall',hall_app)
