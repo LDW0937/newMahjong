@@ -10,7 +10,7 @@ Description:
 """
 from bottle import *
 from admin import admin_app
-from config.config import STATIC_LAYUI_PATH,STATIC_ADMIN_PATH
+from config.config import STATIC_LAYUI_PATH,STATIC_ADMIN_PATH,BACK_PRE
 from common.utilt import *
 from datetime import datetime
 
@@ -22,16 +22,22 @@ def getAgentList(redis,session):
     curTime = datetime.now()
     lang    = getLang()
     isList  = request.GET.get('list','').strip()
+    createAgChildAccess = '1'
+    aType = '0'
 
     if isList:
         pass
     else:
         info = {
-                    'title'         :           '下线代理列表'
+                'title'                  :       '下线代理列表',
+                'showPlus'               :       'true' if aType == '0' else 'false',
+                'createAccess'           :       createAgChildAccess,
+                'createUrl'              :       '/admin/ag/create',
+                'listUrl'                :       BACK_PRE+'/agent/list?list=1',
+                'STATIC_LAYUI_PATH'      :       STATIC_LAYUI_PATH,
+                'STATIC_ADMIN_PATH'      :       STATIC_ADMIN_PATH 
         }
-
         return template('admin_agent_list',info=info,lang=lang)
-    
 
 @admin_app.get('/agent/info')
 def getAgentInfo(redis,session):

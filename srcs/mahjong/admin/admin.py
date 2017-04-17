@@ -21,3 +21,11 @@ import admin_index
 import admin_auth
 #会员模块
 import admin_member
+# 数据统计模块
+import admin_statistics
+# 个人信息模块
+import admin_self
+# 代理模块
+import admin_agent
+# 用户权限模块
+import admin_power

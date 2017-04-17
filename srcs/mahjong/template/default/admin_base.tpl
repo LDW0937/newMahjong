@@ -58,17 +58,17 @@
                                             {"id":"3","name":"权限管理","parentId":"1","url":"","icon":"&#xe604;","order":"1","isHeader":"0",
                                                         "childMenus":[
                                                                 {"id":"4","name":"添加模块","parentId":"3","url":"test1.html","icon":"","order":"1","isHeader":"0","childMenus":""},
-                                                                {"id":"5","name":"模块列表","parentId":"3","url":"test2.html","icon":"","order":"1","isHeader":"0","childMenus":""}
+                                                                {"id":"5","name":"模块列表","parentId":"3","url":"admin/power/UserMenus","icon":"","order":"1","isHeader":"0","childMenus":""}
                                             ]},
 
                                             {"id":"6","name":"代理管理","parentId":"1","url":"","icon":"&#xe602;","order":"1","isHeader":"0",
                                                         "childMenus":[
-                                                                {"id":"7","name":"代理列表","parentId":"6","url":"home3.html","icon":"","order":"1","isHeader":"0","childMenus":""}
+                                                                {"id":"7","name":"代理列表","parentId":"6","url":"/admin/agent/list","icon":"","order":"1","isHeader":"0","childMenus":""}
                                             ]},                                            
 
                                             {"id":"30","name":"会员管理","parentId":"1","url":"","icon":"&#xe602;","order":"1","isHeader":"0",
                                                         "childMenus":[
-                                                                {"id":"7","name":"会员列表","parentId":"30","url":"home3.html","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                                                {"id":"7","name":"会员列表","parentId":"30","url":"/admin/member/list","icon":"","order":"1","isHeader":"0","childMenus":""},
 
                                                                 {"id":"8","name":"会员查询","parentId":"30","url":"home3.html","icon":"","order":"1","isHeader":"0","childMenus":""},
 
@@ -85,7 +85,7 @@
                             
                                 {"id":"2","name":"数据统计","parentId":"0","url":"","icon":"","order":"2","isHeader":"1",
                                     "childMenus":[
-                                    {"id":"9","name":"日登录人数","parentId":"2","url":"","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                    {"id":"9","name":"日登录人数","parentId":"2","url":"/admin/statistics/login","icon":"","order":"1","isHeader":"0","childMenus":""},
                                     {"id":"10","name":"多级","parentId":"2","url":"","icon":"","order":"1","isHeader":"0",
                                         "childMenus":[
                                             {"id":"11","name":"一级","parentId":"10","url":"","icon":"","order":"1","isHeader":"0","childMenus":""},
@@ -108,9 +108,9 @@
 
                                 {"id":"3","name":"个人信息","parentId":"0","url":"","icon":"","order":"2","isHeader":"1",
                                     "childMenus":[
-                                        {"id":"31","name":"密码修改","parentId":"3","url":"","icon":"","order":"1","isHeader":"0","childMenus":""},
-                                        {"id":"32","name":"操作记录","parentId":"3","url":"","icon":"","order":"1","isHeader":"0","childMenus":""},
-                                        {"id":"33","name":"登录日志","parentId":"3","url":"","icon":"","order":"1","isHeader":"0","childMenus":""}
+                                        {"id":"31","name":"密码修改","parentId":"3","url":"/admin/self/modifyPasswd","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                        {"id":"32","name":"操作记录","parentId":"3","url":"/admin/self/syslog","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                        {"id":"33","name":"登录日志","parentId":"3","url":"/admin/self/loginLog","icon":"","order":"1","isHeader":"0","childMenus":""}
                                         ]
                                 }
             ];
@@ -120,6 +120,8 @@
             
             /*获取菜单icon随机色*/
             //getMathColor();
+
+
         }); 
     </script>
   </body>

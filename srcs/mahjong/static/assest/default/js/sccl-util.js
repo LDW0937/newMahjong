@@ -33,6 +33,7 @@ function ajax(url, param, datat, callback) {
 	});  
 }
 
+
 function logout(message){
 	var message = message || '正在登出..';
 
@@ -46,3 +47,5 @@ function logout(message){
     }
   });
 }
+
+

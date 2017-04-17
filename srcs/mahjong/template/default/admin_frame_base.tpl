@@ -15,13 +15,40 @@
     <link rel="stylesheet" href="{{info['STATIC_ADMIN_PATH']}}/css/bootstrap.css">
     <link rel="stylesheet" href="{{info['STATIC_ADMIN_PATH']}}/js/table/bootstrap-table.min.css" />
     <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/skin/qingxin/skin.css" id="layout-skin"/>
+    <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css" />
 
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/lib/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/sccl.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/sccl-util.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/table/bootstrap-table.min.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/table/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/table/bootstrap-table-export.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/table/tableExport.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
     </head>
+    <script type="text/javascript">
+        /*
+          初始化加载
+        */
+        $(function(){
+                    $('body').on('focus','#pick-date-start',function(){
+                            $(".datetime").datetimepicker({
+                                    autoclose   : true
+                            });
+                    });
+                    $('body').on('focus','.pickdate',function(){
+                        $(".datetime").datetimepicker({
+                                autoclose               : true,
+                                format                  : 'yyyy-mm-dd hh:ii:ss',
+                                todayHighlight          : true,
+                                startView               : 2,
+                                language                : 'zh-CN'
+                        });
+                    });
+
+                }); 
+    </script>
     <body>
     %include
     </body>
