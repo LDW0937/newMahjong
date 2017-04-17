@@ -29,3 +29,5 @@ import admin_self
 import admin_agent
 # 用户权限模块
 import admin_power
+#游戏模块
+import admin_game

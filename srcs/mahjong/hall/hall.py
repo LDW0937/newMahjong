@@ -14,7 +14,7 @@ from db_define import *
 from web_db_define import *
 from wechat.wechatData import *
 from common.install_plugin import install_redis_plugin,install_session_plugin
-from common.log import *
+#from common.log import *
 from datetime import datetime
 import time
 import urllib2
