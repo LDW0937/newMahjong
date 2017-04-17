@@ -23,6 +23,7 @@ from common.validcode import create_validate_code
 from datetime import datetime
 import hashlib
 import md5
+from web_db_define import *
 
 @admin_app.get('/login')
 def getLoginPage(redis,session):
