@@ -451,3 +451,11 @@ ACCESS_SUB_ACCOUNT_MODULES = (
     AccessObj(("statistics", "online"), 'GET', '', True), \
 )
 
+ACCESS_AGENT_LIST = (
+    {'url':'/admin/agent/create','method':'GET','txt':'创建代理'},
+    {'url':'/admin/agent/modifyPasswd','method':'GET','txt':'修改'},
+    {'url':'/admin/agent/info','method':'GET','txt':'查看'},
+    {'url':'/admin/agent/freeze','method':'GET','txt':'冻结'},
+    {'url':'/admin/agent/del','method':'GET','txt':'删除'}
+)
+
