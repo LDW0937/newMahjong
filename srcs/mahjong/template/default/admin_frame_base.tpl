@@ -17,7 +17,9 @@
     <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/skin/qingxin/skin.css" id="layout-skin"/>
     <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/js/validate/css/bootstrapValidator.min.css" />
-
+    <link rel="stylesheet" type="text/css" href="{{info['STATIC_ADMIN_PATH']}}/js/layerMobile/layer.css" />
+        <!-- 弹出层组件 -->
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/layerMobile/layer.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/lib/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/sccl.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/sccl-util.js"></script>
