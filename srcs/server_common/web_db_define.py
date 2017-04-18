@@ -59,6 +59,7 @@ Game 游戏表
 }
 """
 GAME_COUNT      =       'games:id:count'
+GAME_LIST       =       'games:list'
 GAME_TABLE      =       'games:id:%s'
 
 """

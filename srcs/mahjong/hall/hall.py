@@ -11,9 +11,10 @@ Description:
 
 from bottle import request, Bottle, abort, redirect, response, template,static_file
 from db_define import *
+from web_db_define import *
 from wechat.wechatData import *
 from common.install_plugin import install_redis_plugin,install_session_plugin
-from common.log import *
+#from common.log import *
 from datetime import datetime
 import time
 import urllib2
@@ -29,7 +30,7 @@ install_redis_plugin(hall_app)
 install_session_plugin(hall_app)
 
 
-def onReg(account,passwd,type): #传入参数：账号，密码，类型；返回参数：成功返回账号和密码，失败返回None, None
+def onReg(redis, account, passwd, type): #传入参数：账号，密码，类型；返回参数：成功返回账号和密码，失败返回None, None
 
     curTime = datetime.now()
 
@@ -50,7 +51,7 @@ def onReg(account,passwd,type): #传入参数：账号，密码，类型；返�
                 realAccount = redis.get(WEIXIN2ACCOUNT%(unionid))
                 account2user_table = FORMAT_ACCOUNT2USER_TABLE%(realAccount)
                 table = redis.get(account2user_table)
-                redis.hmset(table, {'accessToken':accessToken, 'refreshToken':refreshToken, 'password':account})
+                redis.hmset(table, {'accessToken':accessToken, 'refreshToken':refreshToken, 'password':md5.new(account).hexdigest()})
             else:
                 setOpenid2account(openID, accessToken, refreshToken, ip, redis, account)
             return unionid, password
@@ -62,6 +63,13 @@ def onReg(account,passwd,type): #传入参数：账号，密码，类型；返�
             truePassword = redis.hget(table, 'password')
             if truePassword == md5.new(passwd).hexdigest():
                 return unionid, passwd
+    elif type == 0:
+        account2user_table = FORMAT_ACCOUNT2USER_TABLE%(account)
+        if redis.exists(account2user_table):
+            table = redis.get(account2user_table)
+            truePassword = redis.hget(table, 'password')
+            if truePassword == md5.new(passwd).hexdigest():
+                return account, passwd
 
     return None, None
 
@@ -70,28 +78,78 @@ def do_hallLogin(redis,session):
     """
     大厅登录接口
     """
-    pass
+    tt = request.forms.get('tt', '').strip()
+    ip = request['REMOTE_ADDR']
+    account = request.forms.get('account', '').strip()
+    passwd = request.forms.get('passwd', '').strip()
+    type = request.forms.get('type', '').strip() #登录类型
+
+    reAccount, rePasswd = onReg(redis, account, passwd, type)
+
+    if reAccount:
+        if type:
+            realAccount = redis.get(WEIXIN2ACCOUNT%(reAccount))
+        else:
+            realAccount = reAccount
+        #读取昵称和group_id
+        account2user_table = FORMAT_ACCOUNT2USER_TABLE%(realAccount)
+        table = redis.get(account2user_table)
+        name, ag = redis.hmget(table, ('nickname', 'parentAg'))
+        return {'code':0, 'userInfo':{'name':name, 'group_id':ag, 'account':reAccount, 'passwd':rePasswd}}
+    else: #失败
+        return {'code':101}
 
 @hall_app.post('/joinGroup')
 def do_joinGroup(redis,session):
     """
     加入公会接口
     """
-    pass
+    curTime = datetime.now()
+    sid  =  request.forms.get('sid','').strip()
+    groupId = request.forms.get('groupId','').strip()
+
+    #print
+    print '[%s][joinGroup][info] sid[%s] groupId[%s] sid[%s]'%(curTime,groupId,sid)
+
+    adminTable = AGENT_TABLE%(groupId)
+
+    if redis.exists(adminTable):
+        #如果存在,绑定
+        pass
+    else:
+        return {'code':-1}
 
 @hall_app.post('/refresh')
 def do_Refresh(redis,session):
     """
     刷新接口
     """
+    curTime = datetime.now()
+    sid     = request.forms.get('sid','').strip()
+
     pass
+
 
 @hall_app.post('/getRoomSetting')
 def do_getRoomSetting(redis,session):
     """
     获取创建房间设置信息
     """
-    pass
+    curTime = datetime.now()
+    gameId  = request.forms.get('gameId','').strip()
+
+    #print 
+    print '[%s][getRoomSetting][info] gameId[%s]'%(curTime,gameId)
+
+    gameTable = GAME_TABLE%(gameId)
+    if not redis.exists(gameTable):
+        return {'code':-1}
+
+    gameSettingStr = redis.hget(gameTable,'game_rule')
+    print '[%s][getRoomSetting][info] gameId[%s] gameRule[%s]'%(curTime,gameId,gameSettingStr)
+
+    return {'code':0,'setting':gameSettingStr}
+
 
 @hall_app.post('/createRoom')
 def do_CreateRoom(redis,session):

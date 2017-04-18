@@ -13,7 +13,7 @@ from bottle import request, Bottle, abort, redirect, response, template,static_f
 from db_define import *
 from wechatData import *
 from common.install_plugin import install_redis_plugin
-from common.log import *
+#from common.log import *
 from datetime import datetime
 import time
 import urllib2
