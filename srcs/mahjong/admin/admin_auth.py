@@ -36,7 +36,7 @@ def getLoginPage(redis,session):
                     'vcodeUrl'               :           BACK_PRE+'/vcode',
                     'STATIC_LAYUI_PATH'      :           STATIC_LAYUI_PATH,
                     'STATIC_ADMIN_PATH'      :           STATIC_ADMIN_PATH,
-                    'submitUrl'              :       '/admin/login',
+                    'submitUrl'              :           BACK_PRE+'/login',
                     'account'                :       '',
                     'passwd'                 :       '',
     }
@@ -51,7 +51,7 @@ def do_login(redis,session):
 
     info = {
             'title'                  :           '管理员登录',
-            'submitUrl'              :           '/admin/login',
+            'submitUrl'              :           BACK_PRE+'/login',
             'account'                :           account,
             'passwd'                 :           passwd,
             'vcodeUrl'               :           BACK_PRE+'/vcode',
@@ -64,8 +64,8 @@ def do_login(redis,session):
 
     if vcode.upper() != session['maj_vcode'].upper():
         return template('admin_login',message='验证码无效',info=info,lang=lang)
-
-    adminTable = AGENT_TABLE%(account)
+    agentId = redis.get(AGENT_ACCOUNT_TO_ID%(account))
+    adminTable = AGENT_TABLE%(agentId)
     # log_debug('[Try login] account[%s] password[%s] adminTable[%s]'%(account,passwd,adminTable))
     if not redis.hgetall(adminTable):
         return template('admin_login',message='无效的账号或密码',info=info,lang=lang)
@@ -98,6 +98,7 @@ def do_login(redis,session):
 
     #记录session信息
     session['account'] = account
+    session['id'] = agentId
 
     return redirect('/admin')
 

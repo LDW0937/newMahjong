@@ -1,4 +1,4 @@
-<script type="text/javascript" src='/assert/js/agent_create.js'></script>
+<script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/agent_create.js"></script>
 <div class="definewidth" role="form">
     <div class='header definewidth'>
         <h3>
@@ -18,7 +18,7 @@
             <div class="col-sm-6 col-xs-12">
                   <input type='text' name='account' class='input' data-rules="{required:true}">
             </div>
-       </div>           
+       </div>
 
        <div class="form-group">
             <label class="col-sm-5 col-xs-10 control-label">密码:</label>
@@ -53,4 +53,4 @@
         window.location.href="{{info['backUrl']}}";
    });
 </script>
-%rebase base
+%rebase admin_frame_base

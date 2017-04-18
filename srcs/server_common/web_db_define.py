@@ -31,8 +31,11 @@ agent
   }
 """
 AGENT_COUNT         =     'agents:id:count'
-AGENT_TABLE         =     'agents:account:%s'
+AGENT_TABLE         =     'agents:id:%s'
 AGENT_CHILD_TABLE   =     'agents:id:%s:child'
+AGENT_ID_TABLE      =     'agents:ids:set'
+AGENT_ACCOUNT_TO_ID =     'agents:account:%s:to:id'
+# 代理的通过账号映射id
 
 """
 Game 游戏表

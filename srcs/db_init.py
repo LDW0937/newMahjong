@@ -21,7 +21,8 @@ def getInst(dbNum):
     redisdb = redis.ConnectionPool(host="192.168.0.99", port=6379, db='1', password='Fkkg65NbRwQOnq01OGMPy5ZREsNUeURm')
     return redis.Redis(connection_pool=redisdb)
 
-AGENT_TABLE = 'agents:account:%s'
+AGENT_TABLE = 'agents:id:%s'
+AGENT_ACCOUNT_TO_ID =     'agents:account:%s:to:id'
 
 redis = getInst(1)
 
@@ -29,12 +30,16 @@ redis = getInst(1)
 curTime = datetime.now()
 pipe = redis.pipeline()
 
+sysid = 1
+# id
+
+
 """
     配置代理名称和房卡
     代理名称            ：       房卡数
 """
 agentDict = {
-        'id'                    :           1,
+        'id'                    :           sysid,
         'account'               :           'sysadmin',
         'passwd'                :           hashlib.sha256('sysadmin').hexdigest(),
         'name'                  :           'dawei',
@@ -51,8 +56,10 @@ agentDict = {
         'type'                  :           0
 }
 
-adminTable = AGENT_TABLE%('sysadmin')
+adminTable = AGENT_TABLE%(sysid)
+admimtoIdTalbel = AGENT_ACCOUNT_TO_ID%('sysadmin')
 print pipe.hmset(adminTable,agentDict)
+pipe.set(admimtoIdTalbel,sysid)
 print 'create sysadmin[%s] success.'%(adminTable)
 pipe.execute()
 print 'creare Done.........'
