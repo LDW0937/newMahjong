@@ -6,10 +6,18 @@
                 <span class="widget-caption themesecondary" id="subTitle">{{info['title']}}</span>
                 %end
                 % if info['createAccess'] == '1':
-                <span style='float:right;margin-right:10px;'>
-                    <a href="{{info['createUrl']}}" class='btn btn-sm btn-primary'>
-                        <i class='glyphicon glyphicon-plus'></i> 添加直属代理</a>
-                </span>
+                    %if info['atype'] == '0':
+                            <span style='float:right;margin-right:10px;'>
+                                <a href="{{info['createUrl']}}" class='btn btn-sm btn-primary'>
+                                <i class='glyphicon glyphicon-plus'></i> 添加总公司</a>
+                            </span>
+                    %else :
+                            <span style='float:right;margin-right:10px;'>
+                                 <a href="{{info['createUrl']}}" class='btn btn-sm btn-primary'>
+                                 <i class='glyphicon glyphicon-plus'></i> 添加直属代理</a>
+                            </span>
+                    %end
+
                 %end
             </div>
             <div class="content">

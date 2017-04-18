@@ -73,6 +73,7 @@ def getAgentList(redis,session):
     agentId = request.GET.get('id','').strip()
     if not agentId:
         agentId = session['id']
+    log_debug('[%s][agent][list]agentId is [%s] '%(curTime,agentId))
     adminTable = AGENT_TABLE%(agentId)
     createAgChildAccess,aType = redis.hmget(adminTable,('isCreate','type'))
     if isList:
@@ -81,8 +82,9 @@ def getAgentList(redis,session):
     else:
         info = {
                 'title'                  :       '下线代理列表',
-                'showPlus'               :       'true' if aType == '0' else 'false',
+                'showPlus'               :       'true' if aType == '0' or aType =='1' else 'false',
                 'createAccess'           :       createAgChildAccess,
+                'atype'                  :       aType,
                 'createUrl'              :       BACK_PRE+'/agent/create',
                 'listUrl'                :       BACK_PRE+'/agent/list?list=1',
                 'STATIC_LAYUI_PATH'      :       STATIC_LAYUI_PATH,
@@ -103,7 +105,7 @@ def getAgInfo(redis,session):
 
     adminTable = AGENT_TABLE%(agentId)
     account,aid,name,roomCard,regDate,regIp,valid,aType = \
-                redis.hmget(adminTable,('account','id','name','roomCard','regDate','regIp','valid','type'))
+                redis.hmget(adminTable,('account','id','name','roomcard','regDate','regIp','valid','type'))
 
     agentInfo = {
             'title'         :       '代理(%s)详细信息'%(account),
@@ -231,3 +233,25 @@ def getAgentModify(redis,session):
         代理修改
     """
     pass
+
+@admin_app.get('/agent/freeze')
+def do_agFreeze(redis,session):
+    """
+        代理冻结
+    """
+    curTime = datetime.now()
+    agentId = request.GET.get('id','').strip()
+
+    adminTable = AGENT_TABLE%(agentId)
+    if not redis.exists(adminTable):
+        log_debug('[%s][agent][freeze][error] agent[%s] is not exists!'%(curTime,agentId))
+        return abort(403)
+
+    if redis.hget(adminTable,'valid') == '1':
+        redis.hset(adminTable,'valid','0')
+        #记录操作日志
+    else:
+        redis.hset(adminTable,'valid','1')
+        #记录操作日志
+
+    return {'code':0,'msg':'(%s)状态更改成功!'%(agentId),'jumpUrl':'/admin/agent/list'}

@@ -30,6 +30,8 @@
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/validate/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/ajax.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/dialog.js"></script>
     </head>
     <script type="text/javascript">
         /*
