@@ -29,6 +29,13 @@
                                              <input type="text" style='width:250px;float:left' id="name" name="name" class="form-control">
                                              <label for='name' class='hitLabel' style='float:left;line-height:30px'>*</label>
                                          </td>
+                                    </tr>                                      
+                                    <tr>
+                                         <td class='table-title'>游戏版本号</td>
+                                         <td>
+                                             <input type="text" style='width:250px;float:left' id="version" name="version" class="form-control">
+                                             <label for='version' class='hitLabel' style='float:left;line-height:30px'>*</label>
+                                         </td>
                                     </tr>                                
                                     <tr>
                                          <td class='table-title'>游戏图标</td>
@@ -52,10 +59,10 @@
                                     <tr>
                                          <td class='table-title'>
                                                   资源文件名<br/>
-                                                  <small>更新的资源文件包名,入fishing.zip</small>
+                                                  <small>更新的资源文件包名,入xxx.zip</small>
                                          </td>
                                          <td>
-                                             <input type="text" style='width:250px;float:left' id="downloadUrl" name="downloadUrl" class="form-control">
+                                             <input type="text" style='width:250px;float:left' id="pack_name" name="pack_name" class="form-control">
                                          </td>
                                     </tr>                                     
                                     <tr>
@@ -64,7 +71,7 @@
                                                   <small>APK大小</small>
                                          </td>
                                          <td>
-                                             <input type="text" style='width:250px;float:left' id="apksize" name="apksize" class="form-control">
+                                             <input type="text" style='width:250px;float:left' id="apk_size" name="apk_size" class="form-control">
                                          </td>
                                     </tr>                                     
                                     <tr>
@@ -73,7 +80,7 @@
                                                   <small>apk对应的md5</small>
                                          </td>
                                          <td>
-                                             <input type="text" style='width:250px;float:left' id="apkmd5" name="apkmd5" class="form-control">
+                                             <input type="text" style='width:250px;float:left' id="apk_md5" name="apk_md5" class="form-control">
                                          </td>
                                     </tr>                                                      
                                 </table>
@@ -112,17 +119,7 @@
                                                 <input type="text" style='width:250px;float:left' id="ipa_tag" name="ipa_tag" class="form-control">
                                                 <label for='ipa_tag' class='hitLabel'>*</label>
                                          </td>
-                                    </tr>                                   
-                                    <tr>
-                                         <td class='table-title'>
-                                                PC下载tag<br/>
-                                                <small>PC下载链接</small>
-                                         </td>
-                                         <td>
-                                              <input type="text" style='width:250px;float:left' id="pc_tag" name="pc_tag" class="form-control">
-                                              <label for='pc_tag' class='hitLabel'>*</label>
-                                         </td>
-                                    </tr>                                                      
+                                    </tr>                                                                                        
                                 </table>
                               </td>
                         </tr>

@@ -14,6 +14,7 @@ from config.config import STATIC_LAYUI_PATH,STATIC_ADMIN_PATH,BACK_PRE
 from common.utilt import *
 from datetime import datetime
 from model.gameModel import *
+import json
 
 @admin_app.get('/game/list')
 def getGameList(redis):
@@ -105,7 +106,7 @@ def do_gameCreate(redis,session):
         {'field':version,'msg':'游戏版本号不能为空'}
     ]
 
-    for check in checkNullFilds:
+    for check in checkNullFields:
         if not check['field']:
             return {'code':1,'msg':check['msg']}
 
@@ -130,7 +131,7 @@ def do_gameCreate(redis,session):
             'module_id'     :       module_id
     }
 
-    if gamcreateGame(redis,gameInfo):
+    if createGame(redis,gameInfo):
         return {'code':0,'msg':'游戏[%s]创建成功'%(name),'jumpUrl':BACK_PRE+'/game/list'}
 
     return {'code':1,'msg':'游戏[%s]创建失败.'%(name)}
