@@ -109,6 +109,7 @@ def do_BuyPage(redis,session):
 
     return {'code':1,'msg':'申请购卡失败,订单号[%s]'%(orderNo)}
 
+
 @admin_app.get('/order/buy/record')
 def getBuyRecordPage(redis,session):
     """
