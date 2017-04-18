@@ -24,6 +24,7 @@ from datetime import datetime
 import hashlib
 import md5
 from web_db_define import *
+from model.agentModel import *
 
 @admin_app.get('/login')
 def getLoginPage(redis,session):
@@ -64,7 +65,7 @@ def do_login(redis,session):
 
     if vcode.upper() != session['maj_vcode'].upper():
         return template('admin_login',message='验证码无效',info=info,lang=lang)
-    agentId = redis.get(AGENT_ACCOUNT_TO_ID%(account))
+    agentId = getAgentId(redis,account)
     adminTable = AGENT_TABLE%(agentId)
     # log_debug('[Try login] account[%s] password[%s] adminTable[%s]'%(account,passwd,adminTable))
     if not redis.hgetall(adminTable):

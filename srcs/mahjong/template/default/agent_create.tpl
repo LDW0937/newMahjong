@@ -33,7 +33,7 @@
                   <input type='password' name='comfirPasswd' class='input' data-rules="{required:true}">
             </div>
        </div>       
-       %if  info['aType'] == '0':
+       %if  info['aType'] == '0' or info['aType'] == '1':
        <div class="form-group">
             <label class="col-sm-5 col-xs-10 control-label">是否允许创建下级代理:</label>
             <div class="col-sm-6 col-xs-10">
@@ -52,5 +52,64 @@
     $('#backid').click(function(){
         window.location.href="{{info['backUrl']}}";
    });
+    function formAjax(url, method, dataJson, message){
+    var message = message || '正在加载...';
+
+    $.ajax({
+            type: method,
+            url: url,//提交的URL
+            data: dataJson, // 要提交的表单,必须使用name属性
+            dataType:'JSON',
+
+            beforeSend: function () {
+                  layer.open({ type: 2,content:message});
+            },
+
+            success: function (data,statue) {
+                layer.closeAll();
+                reCode = parseInt(data.code);
+                switch(reCode){
+                    case 0: 
+                        //信息框
+                        layer.open({
+                            content: data.msg
+                            ,btn: '确认'
+                            ,yes:function(index){
+                                 location.href=data.jumpUrl;
+                                 layer.close(index);
+                            }
+                        });
+                        break;
+                    
+                    case 2://渲染内容模版
+                        $('#mainContent').html(data.content);
+                        layer.closeAll();
+                        break;
+                    
+                    case 3: //网页直接跳转
+                        location.href=data.jumpUrl;
+                        break;
+
+                    case 4: //弹框停留页
+                        timeTipsDialog(data.jumpUrl,5,data.msg);
+                        break;
+                        
+                    default: //错误信息提示,不刷新页面
+                        layer.open({
+                          content: data.msg
+                          ,skin: 'footer'
+                          ,time: 2 //2秒后自动关闭
+                        });
+                }
+            },
+
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                var strError = "error:\n" + "XMLHttpRequest.status: " + XMLHttpRequest.status + "\n"+
+                              "XMLHttpRequest.readyState: " + XMLHttpRequest.readyState + "\n"+
+                              "textStatus: " + textStatus;
+                alert(strError);
+            }
+     });
+};
 </script>
 %rebase admin_frame_base

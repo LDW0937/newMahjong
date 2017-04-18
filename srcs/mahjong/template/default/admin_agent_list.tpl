@@ -38,6 +38,12 @@
                 valign: 'middle',
                 sortable: true,
             },{
+                field: 'parentId',
+                title: '代理ID',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+            },{
                 field: 'roomCard',
                 sortable: true,
                 title: '房卡数量',
@@ -74,7 +80,7 @@
 
 //初始化子表格(无线循环)
 function InitSubTable(index, row, $detail) {
-        var parentAg = row.parentAg;
+        var parentAg = row.parentId;
         var cur_table = $detail.html('<table table-bordered table-hover definewidth></table>').find('table');
         $(cur_table).bootstrapTable({
                 url: '{{info["listUrl"]}}',
@@ -91,6 +97,9 @@ function InitSubTable(index, row, $detail) {
                 columns: [{
                     field: 'parentAg',
                     title: '代理名称'
+                },{
+                    field: 'parentId',
+                    title: '代理ID'
                 },{
                     field: 'roomCard',
                     title: '房卡数量'
@@ -118,7 +127,7 @@ function InitSubTable(index, row, $detail) {
         //定义列操作
         function getSearchP(p){
               sendParameter = p;
-              sendParameter['account'] = parentAg;
+              sendParameter['id'] = parentAg;
               return sendParameter;
         }
 }
@@ -128,13 +137,13 @@ function getOp(value,row,index){
       var opList = []
       for (var i = 0; i < rowobj['op'].length; ++i) {
           var op = rowobj['op'][i];
-          var str = JSON.stringify({account : rowobj['parentAg']});
+          var str = JSON.stringify({id : rowobj['parentId']});
           var cStr = str.replace(/\"/g, "@");
-          var param = rowobj['parentAg'] ;
+          var param = rowobj['parentId'] ;
           if(op['url'] == '/admin/ag/del' || op['url'] == '/admin/ag/freeze')
               opList.push(String.format("<a href=\"#\" class=\"btn btn-primary btn-sm btn-xs\" onclick=\"comfirmDialog(\'{0}\', \'{1}\', \'{2}\')\"><i class=\"glyphicon glyphicon-edit\"> {3} </i></a> ", op['url'], op['method'], cStr, op['txt']));
           else
-              opList.push(String.format("<a href=\"{0}?account={1}\" class=\"btn btn-primary btn-sm btn-xs\"><i class=\"glyphicon glyphicon-edit\"> {2}</i></a> ", op['url'], param, op['txt']));
+              opList.push(String.format("<a href=\"{0}?id={1}\" class=\"btn btn-primary btn-sm btn-xs\"><i class=\"glyphicon glyphicon-edit\"> {2}</i></a> ", op['url'], param, op['txt']));
       }
       return opList.join('');
 }
@@ -152,6 +161,18 @@ function status(value,row,index){
     return [
         statusstr
     ].join('');
+}
+
+String.format = function() {
+    if( arguments.length == 0 ) {
+    return null; 
+    }
+    var str = arguments[0];
+    for(var i=1;i<arguments.length;i++) {
+    var re = new RegExp('\\{' + (i-1) + '\\}','gm');
+    str = str.replace(re, arguments[i]);
+    }
+    return str;
 }
 
 </script>
