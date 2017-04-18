@@ -40,7 +40,7 @@
             },{
                 field: 'roomCard',
                 sortable: true,
-                title: '房卡数量'
+                title: '房卡数量',
                 align: 'center',
                 valign: 'middle',
             },{
@@ -53,7 +53,7 @@
             },{
                 field: 'regDate',
                 sortable: true,
-                title: '创建时间'
+                title: '创建时间',
                 align: 'center',
                 valign: 'middle',
             },{
