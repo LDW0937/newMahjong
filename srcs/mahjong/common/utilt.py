@@ -11,7 +11,7 @@ Description:
 from bottle import request,response,redirect,abort
 from i18n.i18n import getLangInst
 import inspect
-
+from datetime import datetime,timedelta
 
 def getLang():
     """
@@ -41,3 +41,14 @@ def checkLogin(fn):
         return fn(*args,**kw)
 
     return _check
+
+def getDaya4Week():
+    """
+        返回一个星期时间
+    """
+    weekDelTime = timedelta(7)
+    weekBefore = datetime.now()-weekDelTime
+    startDate = weekBefore
+    endDate   = datetime.now()
+
+    return startDate.strftime('%Y-%m-%d'),endDate.strftime('%Y-%m-%d')

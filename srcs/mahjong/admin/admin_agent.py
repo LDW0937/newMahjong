@@ -147,6 +147,7 @@ def getAgentCreate(redis,session):
             'aType'                  :       aType,
             'backUrl'                :       BACK_PRE+'/agent/list',
             'submitUrl'              :       BACK_PRE+'/agent/create',
+            'games'                  :       getAgentGames(redis,agentId),
             'STATIC_LAYUI_PATH'      :       STATIC_LAYUI_PATH,
             'STATIC_ADMIN_PATH'      :       STATIC_ADMIN_PATH 
     }
@@ -165,8 +166,8 @@ def do_agCreate(redis,session):
     account = request.forms.get('account','').strip()
     passwd = request.forms.get('passwd','').strip()
     isCreate = request.forms.get('isCreate','').strip()
+    shareRate = request.forms.get('shareRate','').strip()
     comfirPasswd = request.forms.get('comfirPasswd','').strip()
-
     if not agentparentId:
         return {'code':1,'msg':'非法创建代理!'}
     # agentparentId = redis.get(AGENT_ACCOUNT_TO_ID%(parentAg))
@@ -199,7 +200,7 @@ def do_agCreate(redis,session):
                 'account'               :           account,
                 'passwd'                :           hashlib.sha256(passwd).hexdigest(),
                 'name'                  :           '',
-                'shareRate'             :           0.5,
+                'shareRate'             :           shareRate,
                 'valid'                 :            1,
                 'roomcard_id'           :           0,
                 'parent_id'             :           agentparentId,
@@ -212,11 +213,14 @@ def do_agCreate(redis,session):
                 'type'                  :           int(aType)+1,
         }
 
+
         pipe.hmset(adminTable,agentInfo)
         #创建代理账号映射id
         pipe.set(admimtoIdTalbel,agentId)
         #将该代理添加进父代理集合
         pipe.sadd(parentSetTable,agentId)
+        # 为该代理绑定拥有的游戏
+        setAgentGames(request,redis,agentparentId,agentId)
         pipe.execute()
     else:
         log_debug('[%s][agent][create][error] agent account[%s] is exists!'%(curTime,account))

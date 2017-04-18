@@ -31,3 +31,5 @@ import admin_agent
 import admin_power
 #游戏模块
 import admin_game
+#订单模块
+import admin_order

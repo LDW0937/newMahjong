@@ -32,7 +32,23 @@
             <div class="col-sm-6 col-xs-12">
                   <input type='password' name='comfirPasswd' class='input' data-rules="{required:true}">
             </div>
-       </div>       
+       </div>
+       <div class="form-group">
+            <label class="col-sm-5 col-xs-10 control-label">占成比:</label>
+            <div class="col-sm-6 col-xs-12">
+                  <input type='shareRate' name='shareRate' class='input' data-rules="{required:true}">
+            </div>
+       </div>
+       <div class="form-group">
+                <label class="col-sm-5 col-xs-10 control-label">勾选游戏:</label>
+                      %for game in info['games']:
+                         <label class="checkbox-inline"> 
+                             <input type="checkbox" value="{{game['id']}}" name="game{{game['id']}}" class="icheck"> {{game['name']}}
+                         </label>
+                      %end
+       </div>
+
+
        %if  info['aType'] == '0' or info['aType'] == '1':
        <div class="form-group">
             <label class="col-sm-5 col-xs-10 control-label">是否允许创建下级代理:</label>

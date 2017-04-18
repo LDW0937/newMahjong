@@ -81,11 +81,11 @@
 
                                             {"id":"20","name":"我的订单","parentId":"1","url":"","icon":"&#xe602;","order":"1","isHeader":"0",
                                                         "childMenus":[
-                                                                {"id":"21","name":"购买房卡","parentId":"7","url":"/order/buy","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                                                {"id":"21","name":"购买房卡","parentId":"7","url":"/admin/order/buy","icon":"","order":"1","isHeader":"0","childMenus":""},
 
-                                                                {"id":"22","name":"购买房卡记录","parentId":"7","url":"/order/buy/record","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                                                {"id":"22","name":"购买房卡记录","parentId":"7","url":"/admin/order/buy/record","icon":"","order":"1","isHeader":"0","childMenus":""},
 
-                                                                {"id":"23","name":"售卖房卡记录","parentId":"7","url":"/order/sale/record","icon":"","order":"1","isHeader":"0","childMenus":""}
+                                                                {"id":"23","name":"售卖房卡记录","parentId":"7","url":"/admin/order/sale/record","icon":"","order":"1","isHeader":"0","childMenus":""}
                                              ]}
                                 ]},
                             
@@ -114,9 +114,9 @@
 
                                 {"id":"2","name":"账目统计","parentId":"0","url":"","icon":"","order":"2","isHeader":"1",
                                     "childMenus":[
-                                        {"id":"21","name":"售卡报表","parentId":"2","url":"/admin/self/modifyPasswd","icon":"","order":"1","isHeader":"0","childMenus":""},
-                                        {"id":"22","name":"购卡报表","parentId":"2","url":"/admin/self/syslog","icon":"","order":"1","isHeader":"0","childMenus":""},
-                                        {"id":"23","name":"财务报表","parentId":"2","url":"/admin/self/loginLog","icon":"","order":"1","isHeader":"0","childMenus":""}
+                                        {"id":"21","name":"售卡报表","parentId":"2","url":"/admin/statistics/saleReport","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                        {"id":"22","name":"购卡报表","parentId":"2","url":"/admin/statistics/buyReport","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                        {"id":"23","name":"财务报表","parentId":"2","url":"/admin/statistics/fianace","icon":"","order":"1","isHeader":"0","childMenus":""}
                                         ]
                                 },                                
 
