@@ -38,7 +38,6 @@ def onReg(redis, account, passwd, type): #传入参数：账号，密码，类�
 
     #print
     print '[%s][wechat onReg][info] account[%s] passwd[%s] type[%s]'%(curTime,account,passwd,type)
-    log_debug('[%s][wechat onReg][info] account[%s] passwd[%s] type[%s]'%(curTime,account,passwd,type))
 
     if type == 1: #微信code登录
         tokenMessage = checkWeixinCode(account)
@@ -103,7 +102,7 @@ def do_hallLogin(redis,session):
         sid = md5.new(str(id)+str(time.time())).hexdigest()
         SessionTable = FORMAT_USER_HALL_SESSION%(sid)
         if redis.exists(SessionTable):
-            log_debug("[%s][hall][login][error] account[%s] sid[%s] is existed."%(curTime,realAccount,sid))
+            print "[%s][hall][login][error] account[%s] sid[%s] is existed."%(curTime,realAccount,sid)
             return {'code':-1}
         
         #同一账号不能同时登录
@@ -221,7 +220,7 @@ def do_CreateRoom(redis,session):
     """
     tt = request.forms.get('tt', '').strip()
     if tt not in ACCEPT_TT:
-        log_debug("try getServer: get faild, code[1].")
+        print "try getServer: get faild, code[1]."
         return {'code' : -1}
         
     roomId = request.forms.get('roomId','').strip()
@@ -229,7 +228,7 @@ def do_CreateRoom(redis,session):
         serverTable = redis.get(ROOM2SERVER%(roomId))
         serverIp = serverTable.split(':')[1]
         serverPort = serverTable.split(':')[2]
-        log_debug("try getServer: get succed, code[0] ip[%s] port[%s]."%(serverIp, serverPort))
+        print "try getServer: get succed, code[0] ip[%s] port[%s]."%(serverIp, serverPort)
         return {'code' : 0, 'ip' : serverIp, 'port' : serverPort}
     else:
         return {'code':-1}
