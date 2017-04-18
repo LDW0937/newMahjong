@@ -81,11 +81,11 @@
 
                                             {"id":"20","name":"我的订单","parentId":"1","url":"","icon":"&#xe602;","order":"1","isHeader":"0",
                                                         "childMenus":[
-                                                                {"id":"21","name":"购买房卡","parentId":"7","url":"/order/buy","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                                                {"id":"21","name":"购买房卡","parentId":"7","url":"/admin/order/buy","icon":"","order":"1","isHeader":"0","childMenus":""},
 
-                                                                {"id":"22","name":"购买房卡记录","parentId":"7","url":"/order/buy/record","icon":"","order":"1","isHeader":"0","childMenus":""},
+                                                                {"id":"22","name":"购买房卡记录","parentId":"7","url":"/admin/order/buy/record","icon":"","order":"1","isHeader":"0","childMenus":""},
 
-                                                                {"id":"23","name":"售卖房卡记录","parentId":"7","url":"/order/sale/record","icon":"","order":"1","isHeader":"0","childMenus":""}
+                                                                {"id":"23","name":"售卖房卡记录","parentId":"7","url":"/admin/order/sale/record","icon":"","order":"1","isHeader":"0","childMenus":""}
                                              ]}
                                 ]},
                             

@@ -126,13 +126,6 @@ ORDER_TABLE     =    'orders:id:%s'
 
 
 """
-buy_order_list
-代理订单列表
-agent:ID:order:list
-"""
-AGENT_BUY_ORDER_LIST = 'agent:%s:order:list'
-
-"""
 buy_order_success_date
 代理成功列表
 agent:ID:buySuccess:datestr
