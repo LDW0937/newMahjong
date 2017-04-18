@@ -109,10 +109,6 @@
         }
 
         function responseFunc(res){
-            if (res.length && res[0].op.length)
-                $("#dataTable").bootstrapTable('showColumn', 'op');
-            else
-                $("#dataTable").bootstrapTable('hideColumn', 'op');
 
             return res;
         }
