@@ -32,10 +32,10 @@
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/validate/js/bootstrapValidator.min.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/ajax.js"></script>
     <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/dialog.js"></script>
+    <script type="text/javascript" src="{{info['STATIC_ADMIN_PATH']}}/js/layerMobile/layer.js"></script>
     </head>
     <script type="text/javascript">
         /*
-          初始化加载
         */
         $(function(){
                     $('body').on('focus','#pick-date-start',function(){
