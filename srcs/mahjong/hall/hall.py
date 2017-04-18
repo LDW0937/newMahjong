@@ -21,6 +21,8 @@ import urllib2
 import json
 import random
 import md5
+ACCEPT_NUM_BASE = 198326
+ACCEPT_TT = [md5.new(str(ACCEPT_NUM_BASE+i)).hexdigest() for i in xrange(10)]
 
 #wechatApp
 hall_app = Bottle()
@@ -79,6 +81,7 @@ def do_hallLogin(redis,session):
     大厅登录接口
     """
     tt = request.forms.get('tt', '').strip()
+    curTime = datetime.now()
     ip = request['REMOTE_ADDR']
     account = request.forms.get('account', '').strip()
     passwd = request.forms.get('passwd', '').strip()
@@ -93,9 +96,42 @@ def do_hallLogin(redis,session):
             realAccount = reAccount
         #读取昵称和group_id
         account2user_table = FORMAT_ACCOUNT2USER_TABLE%(realAccount)
-        table = redis.get(account2user_table)
-        name, ag = redis.hmget(table, ('nickname', 'parentAg'))
-        return {'code':0, 'userInfo':{'name':name, 'group_id':ag, 'account':reAccount, 'passwd':rePasswd}}
+        userTable = redis.get(account2user_table)
+        id, account, name, ag, loginIp, loginDate = redis.hmget(userTable, ('id', 'account', 'nickname', 'parentAg', 'lastLoginIp', 'lastLoginDate'))
+            
+        #会话信息
+        sid = md5.new(str(id)+str(time.time())).hexdigest()
+        SessionTable = FORMAT_USER_HALL_SESSION%(sid)
+        if redis.exists(SessionTable):
+            log_debug("[%s][hall][login][error] account[%s] sid[%s] is existed."%(curTime,realAccount,sid))
+            return {'code':-1}
+        
+        #同一账号不能同时登录
+        sessionKey = md5.new(str(time.time())+str(id)).hexdigest()
+        redis.set(FORMAT_USER_PLATFORM_SESSION%(account),sessionKey)
+
+        #更新登录IP和登陆日期
+        # memberInfo.login_ip = request['REMOTE_ADDR']
+        # curTime = datetime.now()
+        # memberInfo.login_date = curTime.strftime("%Y-%m-%d %H:%M:%S")
+        # memberInfo.save()
+        redis.hmset(userTable, {'lastLoginIp':request['REMOTE_ADDR'], 'lastLoginDate':datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+        
+        #记录session信息
+        session['member_id'] = id
+        session['member_account'] = account
+        session['member_lastIp'] = loginIp
+        session['member_lastDate'] = loginDate
+        session['session_key']  = sessionKey
+        pipe = redis.pipeline()
+        pipe.hmset(SessionTable, {'account':account,'uid':id})
+        pipe.expire(SessionTable, 6000)
+        pipe.expire(sessionKey,6000)
+        pipe.execute()
+
+        # return {'code':0,'sid':sid}
+            
+        return {'code':0, 'sid':sid, 'userInfo':{'name':name, 'group_id':ag, 'account':reAccount, 'passwd':rePasswd}}
     else: #失败
         return {'code':101}
 
@@ -112,10 +148,19 @@ def do_joinGroup(redis,session):
     print '[%s][joinGroup][info] sid[%s] groupId[%s] sid[%s]'%(curTime,groupId,sid)
 
     adminTable = AGENT_TABLE%(groupId)
+    SessionTable = FORMAT_USER_HALL_SESSION%(sid)
+    account = redis.hget(SessionTable, 'account')
+    account2user_table = FORMAT_ACCOUNT2USER_TABLE%(account)
+    userTable = redis.get(account2user_table)
+    id = redis.hget(userTable, 'id')
 
-    if redis.exists(adminTable):
+    if redis.exists(adminTable) and redis.exists(userTable):
         #如果存在,绑定
-        pass
+        pipe = redis.pipeline()
+        pipe.sadd(FORMAT_ADMIN_ACCOUNT_MEMBER_TABLE%('CHNWX'), id) #上线代理需要获得
+        pipe.hset(userTable, {'parentAg':groupId})
+        pipe.execute()
+        return {'code':0}
     else:
         return {'code':-1}
 
@@ -126,8 +171,26 @@ def do_Refresh(redis,session):
     """
     curTime = datetime.now()
     sid     = request.forms.get('sid','').strip()
-
-    pass
+    SessionTable = FORMAT_USER_HALL_SESSION%(sid)
+    account = redis.hget(SessionTable, 'account')
+    account2user_table = FORMAT_ACCOUNT2USER_TABLE%(account)
+    userTable = redis.get(account2user_table)
+    roomCard, groupId = redis.hmget(userTable, ('roomCard', 'parentAg'))
+    agentOwnGame = AGENT_OWN_GAME%(groupId)
+    gamesSet = redis.smemerbers(agentOwnGame)
+    gameInfo = {}
+    for gameId in gamesSet:
+        gameTable = GAME_TABLE%(gameId)
+        if not redis.exists(gameTable):
+            return {'code':-1}
+        name, webTag, version = redis.hmget(gameTable, ('name', 'web_tag', 'version'))
+        gameInfo[gameId] = {
+            'id'                :           gameId,
+            'name'              :           name,
+            'web_tag'           :           webTag,
+            'version'           :           version
+        }
+    return {'code':0, 'userInfo':{'roomCard':roomCard}, 'gameInfo':gameInfo}
 
 
 @hall_app.post('/getRoomSetting')
@@ -156,7 +219,21 @@ def do_CreateRoom(redis,session):
     """
     创建房间接口
     """
-    pass
+    tt = request.forms.get('tt', '').strip()
+    if tt not in ACCEPT_TT:
+        log_debug("try getServer: get faild, code[1].")
+        return {'code' : -1}
+        
+    roomId = request.forms.get('roomId','').strip()
+    if redis.exists(ROOM2SERVER%(roomId)):
+        serverTable = redis.get(ROOM2SERVER%(roomId))
+        serverIp = serverTable.split(':')[1]
+        serverPort = serverTable.split(':')[2]
+        log_debug("try getServer: get succed, code[0] ip[%s] port[%s]."%(serverIp, serverPort))
+        return {'code' : 0, 'ip' : serverIp, 'port' : serverPort}
+    else:
+        return {'code':-1}
+    
 
 @hall_app.post('/getRoomList')
 def do_getRoomList(redis,session):
