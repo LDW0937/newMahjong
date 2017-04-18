@@ -49,3 +49,51 @@ function logout(message){
 }
 
 
+function formAjax(url, method, dataJson, message){
+    var message = message || '正在加载...';
+
+    $.ajax({
+            type: method,
+            url: url,//提交的URL
+            data: dataJson, // 要提交的表单,必须使用name属性
+            dataType:'JSON',
+
+            beforeSend: function () {
+                  layer.open({
+                    type: 2
+                    ,content: message
+                  });
+            },
+
+            success: function (data,statue) {
+                layer.closeAll();
+                reCode = parseInt(data.code);
+                switch(reCode){
+                    case 0: 
+                     layer.open({
+                            content: data.msg
+                            ,skin:'msg'
+                            ,time:4
+                            ,function(){
+                                location.href = data.jumpUrl
+                            }
+                     });
+                    default: //错误信息提示,不刷新页面
+                         layer.open({
+                            content: data.msg
+                            ,skin: 'msg'
+                            ,time: 3 //2秒后自动关闭
+                         });
+                }
+            },
+
+            error : function(){
+                 layer.open({
+                            content: XMLHttpRequest.status
+                            ,skin: 'msg'
+                            ,time: 3 //2秒后自动关闭
+                  });
+                  layer.closeAll();
+            }
+     });
+};

@@ -51,8 +51,6 @@ def content_path(res_path):
      @description: 设置资源文件路径
     '''
     #支持跨域请求
-    print res_path
-    print bottle.static_file(res_path,root='mahjong/static/')
     return bottle.static_file(res_path,root='mahjong/static/')
 
 
