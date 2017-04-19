@@ -240,3 +240,28 @@ def do_getRoomList(redis,session):
     获取房间列表
     """
     pass
+    
+@hall_app.post('/exitGroup')
+def do_exitGroup(redis,session):
+    """
+    退出工会接口
+    """
+    sid  =  request.forms.get('sid','').strip()
+    
+    SessionTable = FORMAT_USER_HALL_SESSION%(sid)
+    account = redis.hget(SessionTable, 'account')
+    account2user_table = FORMAT_ACCOUNT2USER_TABLE%(account)
+    userTable = redis.get(account2user_table)
+    id, groupId = redis.hmget(userTable, ('id', 'parentAg'))
+    adminTable = AGENT_TABLE%(groupId)
+    if redis.exists(adminTable) and redis.exists(userTable):
+        pipe = redis.pipeline()
+        pipe.srem(FORMAT_ADMIN_ACCOUNT_MEMBER_TABLE%('CHNWX'), id) #上线代理需要获得
+        pipe.hset(userTable, {'parentAg':None})
+        pipe.execute()
+        return {'code':0}
+    else:
+        return {'code':-1}
+    
+    
+    
