@@ -193,6 +193,12 @@ AGENT2ROOMCARD     =    'agent:%s:roomcard:list'
 FORMAT_USER_HALL_SESSION = 'hall:session:%s'
 
 """
+平台session
+"""
+#$account
+FORMAT_USER_PLATFORM_SESSION = 'session:%s'
+
+"""
 管理员子会员id集合
 """
 FORMAT_ADMIN_ACCOUNT_MEMBER_TABLE = "admins:account:%s:member:children"
@@ -218,6 +224,19 @@ USER_COUNT     =    'users:count'
 USER_TABLE     =    'users:id:%s'
 
 """
-用户账号到用户表的映射
+UID到玩家表名的映射：users:account:$账号名
+users:uid:test      ->      账号test所在的数据表
 """
 FORMAT_ACCOUNT2USER_TABLE = "users:account:%s"
+
+"""
+微信标示ID到账号的映射
+weixin2account:weixin:ID1:key
+"""
+WEIXIN2ACCOUNT = 'weixin2account:weixin:%s:key'
+
+"""
+房间号到服务器的映射
+room2server:room1:ID1:key
+"""
+ROOM2SERVER = 'room2server:%s:101:key'
