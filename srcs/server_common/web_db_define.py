@@ -185,3 +185,39 @@ agent2roomcard
 agent:%s:roomcard:list
 """
 AGENT2ROOMCARD     =    'agent:%s:roomcard:list'
+
+"""
+大厅游戏登录session
+"""
+#time -> userTable
+FORMAT_USER_HALL_SESSION = 'hall:session:%s'
+
+"""
+管理员子会员id集合
+"""
+FORMAT_ADMIN_ACCOUNT_MEMBER_TABLE = "admins:account:%s:member:children"
+
+"""
+user
+用户表
+{
+        'id'            :       用户ID
+        'account'       :       用户账号
+        'passwd'        :       用户密码
+        'name'          :       用户名称
+        'valid'         :       是否有效
+        'parent_ag'     :       代理ID
+        'regDate'       :       注册日期
+        'regIp'         :       注册IP
+        'lastLoginIp'   :       最后登陆IP
+        'lastLoginDate' :       最后登陆日期
+        'roomCard'      :       房卡ID
+}
+"""
+USER_COUNT     =    'users:count'
+USER_TABLE     =    'users:id:%s'
+
+"""
+用户账号到用户表的映射
+"""
+FORMAT_ACCOUNT2USER_TABLE = "users:account:%s"
