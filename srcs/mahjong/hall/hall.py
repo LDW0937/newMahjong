@@ -79,6 +79,7 @@ def do_hallLogin(redis,session):
     """
     大厅登录接口
     """
+    response.add_header('Access-Control-Allow-Origin', '*')
     tt = request.forms.get('tt', '').strip()
     curTime = datetime.now()
     ip = request['REMOTE_ADDR']
@@ -139,6 +140,7 @@ def do_joinGroup(redis,session):
     """
     加入公会接口
     """
+    response.add_header('Access-Control-Allow-Origin', '*')
     curTime = datetime.now()
     sid  =  request.forms.get('sid','').strip()
     groupId = request.forms.get('groupId','').strip()
@@ -168,6 +170,7 @@ def do_Refresh(redis,session):
     """
     刷新接口
     """
+    response.add_header('Access-Control-Allow-Origin', '*')
     curTime = datetime.now()
     sid     = request.forms.get('sid','').strip()
     SessionTable = FORMAT_USER_HALL_SESSION%(sid)
@@ -197,6 +200,7 @@ def do_getRoomSetting(redis,session):
     """
     获取创建房间设置信息
     """
+    response.add_header('Access-Control-Allow-Origin', '*')
     curTime = datetime.now()
     gameId  = request.forms.get('gameId','').strip()
 
@@ -218,6 +222,7 @@ def do_CreateRoom(redis,session):
     """
     创建房间接口
     """
+    response.add_header('Access-Control-Allow-Origin', '*')
     tt = request.forms.get('tt', '').strip()
     if tt not in ACCEPT_TT:
         print "try getServer: get faild, code[1]."
@@ -246,6 +251,7 @@ def do_exitGroup(redis,session):
     """
     退出工会接口
     """
+    response.add_header('Access-Control-Allow-Origin', '*')
     sid  =  request.forms.get('sid','').strip()
     
     SessionTable = FORMAT_USER_HALL_SESSION%(sid)
